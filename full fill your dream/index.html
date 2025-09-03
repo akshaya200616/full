@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fulfill Your Dream</title>
+  <style>
+    /* ---------- Reset & base ---------- */
+    :root{
+      --bg1: #ffdde1; --bg2:#a1c4fd; --card1:#fff7e6; --card2:#e9fffb;
+      --accent1:#ff6b6b; --accent2:#4d96ff; --accent3:#8b6cff;
+      --glass: rgba(255,255,255,0.7);
+      --maxw:1100px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh;
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      display:flex; align-items:center; justify-content:center; padding:40px 20px;
+    }
+    .wrap{width:100%; max-width:var(--maxw); margin:0 auto}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .logo{
+      width:72px;height:72px;border-radius:16px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px;box-shadow:0 6px 18px rgba(0,0,0,0.12)
+    }
+    h1{margin:0;font-size:28px;color:#1b1b1b}
+    p.lead{margin:6px 0 0;color:#333a; font-size:14px}
+
+    /* ---------- Options grid ---------- */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.86));
+      border-radius:14px;padding:16px;box-shadow:0 8px 24px rgba(13,13,27,0.08);cursor:pointer;transition:transform .18s ease, box-shadow .18s ease;border:1px solid rgba(255,255,255,0.6)
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(13,13,27,0.12)}
+    .card h3{margin:0 0 8px;font-size:18px}
+    .card .desc{font-size:13px;color:#333a;margin-bottom:10px}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;background:linear-gradient(90deg,var(--accent3),var(--accent2));color:white}
+
+    .accent-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .small{font-size:12px;color:#444}
+
+    /* ---------- Modal / Drawer ---------- */
+    .overlay{position:fixed;inset:0;background:rgba(9,10,12,0.45);display:none;align-items:flex-end;justify-content:center;padding:24px}
+    .overlay.open{display:flex}
+    .drawer{width:100%;max-width:1000px;background:linear-gradient(180deg,var(--card1),var(--card2));border-radius:12px;padding:18px;box-shadow:0 30px 80px rgba(8,8,20,0.5);max-height:86vh;overflow:auto}
+
+    .drawer .head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .drawer h2{margin:0}
+    .close-btn{background:transparent;border:0;font-size:20px;cursor:pointer}
+
+    .info-row{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+    .info-box{background:var(--glass);padding:10px;border-radius:10px;min-width:160px;font-size:14px}
+
+    .images-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+    .images-grid img{width:100%;height:110px;object-fit:cover;border-radius:8px;border:3px solid rgba(255,255,255,0.6)}
+
+    /* ---------- Form ---------- */
+    form.worker-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    form .full{grid-column:1/-1}
+    label{font-size:13px;color:#222}
+    input,textarea,select{padding:10px;border-radius:8px;border:1px solid rgba(10,10,20,0.07);font-size:14px}
+    textarea{resize:vertical;min-height:100px}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent2),var(--accent3));color:white;font-weight:600;cursor:pointer}
+
+    footer{margin-top:16px;text-align:center;color:#2228;font-size:13px}
+
+    /* responsive tweaks */
+    @media (max-width:600px){
+      form.worker-form{grid-template-columns:1fr}
+      .images-grid img{height:90px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">FYD</div>
+      <div>
+        <h1>Fulfill Your Dream</h1>
+        <p class="lead">Budget-friendly land, materials, contracts & worker applications — colourful, simple, and built around your budget.</p>
+      </div>
+    </header>
+
+    <section class="grid" id="options">
+      <!-- Card: Land -->
+      <div class="card" data-key="land">
+        <h3>Land — Budget-friendly</h3>
+        <p class="desc">Affordable land plots with contact & negotiable rates. Click to view photos & price ranges.</p>
+        <div class="accent-row">
+          <span class="pill">From ₹4,50,000</span>
+          <span class="small">Contact: +91-98765-43210</span>
+        </div>
+      </div>
+
+      <!-- Construction Material -->
+      <div class="card" data-key="materials">
+        <h3>Construction Material — Budget</h3>
+        <p class="desc">Low-cost, quality material suppliers with bulk discounts.</p>
+        <div class="accent-row">
+          <span class="pill">Savings upto 25%</span>
+          <span class="small">Contact: +91-91234-56789</span>
+        </div>
+      </div>
+
+      <!-- Contract -->
+      <div class="card" data-key="contractors">
+        <h3>Contract — Affordable Contractors</h3>
+        <p class="desc">Experienced contractors offering budget packages and fixed-price contracts.</p>
+        <div class="accent-row">
+          <span class="pill">Packages from ₹1,20,000</span>
+          <span class="small">Contact: +91-99887-66554</span>
+        </div>
+      </div>
+
+      <!-- Application for Workers -->
+      <div class="card" data-key="workers">
+        <h3>Application for Workers</h3>
+        <p class="desc">Hire labour — masons, carpenters, plumbers, electricians. Submit your needs and get matched.</p>
+        <div class="accent-row">
+          <span class="pill">Fast matching</span>
+          <span class="small">Support: support@fy.dream</span>
+        </div>
+      </div>
+
+      <!-- Preplanned Layouts -->
+      <div class="card" data-key="layouts">
+        <h3>Preplanned Layouts (Budget-wise)</h3>
+        <p class="desc">Layouts pre-designed for common budgets — pick foundation + layout that fits your plan.</p>
+        <div class="accent-row">
+          <span class="pill">From ₹75,000</span>
+          <span class="small">Contact: +91-90123-44556</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>Tip: Click any option to open images (at least 10) and low-cost price details. This is a single-file demo — save as an .html and open in the browser.</footer>
+  </div>
+
+  <!-- Overlay / Drawer -->
+  <div class="overlay" id="overlay">
+    <div class="drawer" role="dialog" aria-modal="true">
+      <div class="head">
+        <div>
+          <h2 id="drawer-title">Item</h2>
+          <div id="drawer-sub" class="small">Details & contact</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn" id="contact-action">Contact</button>
+          <button class="close-btn" id="close-drawer" title="Close">✕</button>
+        </div>
+      </div>
+
+      <div class="info-row" id="info-row">
+        <!-- Price/contact boxes injected here -->
+      </div>
+
+      <div id="drawer-body">
+        <!-- Images / Form / Layouts injected here -->
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ---------- Data for the demo (images + prices + contact) ----------
+    const DATA = {
+      land: {
+        title: 'Land — Budget-friendly Plots',
+        contact: '+91-98765-43210',
+        email: 'land-sales@fy.dream',
+        prices: [
+          {label:'Pocket-friendly (Small plot)', price:'₹4,50,000 - ₹6,00,000'},
+          {label:'Standard plot', price:'₹7,00,000 - ₹11,00,000'},
+          {label:'Investment plots', price:'₹12,00,000+'}
+        ],
+        images: [
+          'https://picsum.photos/id/1011/800/600', 'https://picsum.photos/id/1012/800/600', 'https://picsum.photos/id/1013/800/600',
+          'https://picsum.photos/id/1015/800/600', 'https://picsum.photos/id/1020/800/600', 'https://picsum.photos/id/1024/800/600',
+          'https://picsum.photos/id/1025/800/600', 'https://picsum.photos/id/1031/800/600', 'https://picsum.photos/id/1033/800/600', 'https://picsum.photos/id/1035/800/600'
+        ]
+      },
+      materials: {
+        title: 'Construction Materials — Budget Suppliers',
+        contact: '+91-91234-56789',
+        email: 'materials@fy.dream',
+        prices:[
+          {label:'Cement (per bag)', price:'₹260 - ₹310'},
+          {label:'Bricks (per 1000)', price:'₹12,000 - ₹18,000'},
+          {label:'Steel (per ton)', price:'₹60,000 - ₹65,000'}
+        ],
+        images:[
+          'https://picsum.photos/id/1040/800/600','https://picsum.photos/id/1041/800/600','https://picsum.photos/id/1042/800/600',
+          'https://picsum.photos/id/1043/800/600','https://picsum.photos/id/1044/800/600','https://picsum.photos/id/1045/800/600',
+          'https://picsum.photos/id/1047/800/600','https://picsum.photos/id/1048/800/600','https://picsum.photos/id/1050/800/600','https://picsum.photos/id/1051/800/600'
+        ]
+      },
+      contractors: {
+        title:'Contractors — Fixed & Budget Packages',
+        contact:'+91-99887-66554',
+        email:'contracts@fy.dream',
+        prices:[
+          {label:'Labour-only', price:'₹1,20,000 - ₹2,50,000'},
+          {label:'Labour + Materials (budget)', price:'₹3,50,000 - ₹6,00,000'},
+          {label:'Turnkey (economy)', price:'₹8,00,000+'}
+        ],
+        images:[
+          'https://picsum.photos/id/1060/800/600','https://picsum.photos/id/1062/800/600','https://picsum.photos/id/1063/800/600',
+          'https://picsum.photos/id/1064/800/600','https://picsum.photos/id/1065/800/600','https://picsum.photos/id/1066/800/600',
+          'https://picsum.photos/id/1070/800/600','https://picsum.photos/id/1072/800/600','https://picsum.photos/id/1074/800/600','https://picsum.photos/id/1080/800/600'
+        ]
+      },
+      workers: {
+        title:'Application for Workers',
+        contact:'+91-90000-11223',
+        email:'workers@fy.dream',
+        prices:[
+          {label:'Skilled labour (daily)', price:'₹700 - ₹1200/day'},
+          {label:'Unskilled labour (daily)', price:'₹400 - ₹700/day'}
+        ],
+        images:[
+          'https://picsum.photos/id/1082/800/600','https://picsum.photos/id/1084/800/600','https://picsum.photos/id/1085/800/600',
+          'https://picsum.photos/id/1089/800/600','https://picsum.photos/id/1090/800/600','https://picsum.photos/id/1091/800/600',
+          'https://picsum.photos/id/1092/800/600','https://picsum.photos/id/1093/800/600','https://picsum.photos/id/1094/800/600','https://picsum.photos/id/1096/800/600'
+        ]
+      },
+      layouts: {
+        title:'Preplanned Layouts (Budget-wise)',
+        contact:'+91-90123-44556',
+        email:'layouts@fy.dream',
+        prices:[
+          {label:'Studio / 1BHK (budget)', price:'₹75,000 - ₹1,20,000'},
+          {label:'2BHK (compact)', price:'₹1,30,000 - ₹2,00,000'},
+          {label:'3BHK (economy)', price:'₹2,20,000+'}
+        ],
+        images:[
+          'https://picsum.photos/id/1100/800/600','https://picsum.photos/id/1101/800/600','https://picsum.photos/id/1102/800/600',
+          'https://picsum.photos/id/1103/800/600','https://picsum.photos/id/1104/800/600','https://picsum.photos/id/1105/800/600',
+          'https://picsum.photos/id/1106/800/600','https://picsum.photos/id/1107/800/600','https://picsum.photos/id/1108/800/600','https://picsum.photos/id/1109/800/600'
+        ],
+        layoutsMeta:[
+          {name:'Compact 1BHK', area:'450 sqft', price:'₹75,000', desc:'Open plan living + kitchenette.'},
+          {name:'Cozy 2BHK', area:'700 sqft', price:'₹1,40,000', desc:'Two bedrooms, one bath, compact kitchen.'},
+          {name:'Family 3BHK', area:'1100 sqft', price:'₹2,50,000', desc:'Three bedrooms, two baths, living + dining.'}
+        ]
+      }
+    };
+
+    // ---------- Helpers to render drawer ----------
+    const overlay = document.getElementById('overlay');
+    const drawerTitle = document.getElementById('drawer-title');
+    const drawerSub = document.getElementById('drawer-sub');
+    const infoRow = document.getElementById('info-row');
+    const drawerBody = document.getElementById('drawer-body');
+    const contactAction = document.getElementById('contact-action');
+
+    function openDrawer(key){
+      const item = DATA[key];
+      if(!item) return;
+      drawerTitle.textContent = item.title;
+      drawerSub.textContent = `Contact: ${item.contact} • ${item.email}`;
+
+      // Info boxes
+      infoRow.innerHTML = '';
+      const priceBox = document.createElement('div'); priceBox.className='info-box';
+      priceBox.innerHTML = `<strong>Price ranges</strong><br>` + item.prices.map(p=>`<div style="margin-top:6px"><strong>${p.label}:</strong> ${p.price}</div>`).join('');
+      infoRow.appendChild(priceBox);
+
+      const contactBox = document.createElement('div'); contactBox.className='info-box';
+      contactBox.innerHTML = `<strong>Contact</strong><br>Phone: ${item.contact}<br>Email: ${item.email}<br><small>Call or email to negotiate budget prices.</small>`;
+      infoRow.appendChild(contactBox);
+
+      // Body: images OR form OR layouts
+      drawerBody.innerHTML = '';
+
+      if(key === 'workers'){
+        // show workers form + images
+        const intro = document.createElement('p'); intro.className='small'; intro.textContent = 'Fill the form to apply for workers or post a job requirement.';
+        drawerBody.appendChild(intro);
+
+        const form = document.createElement('form'); form.className='worker-form'; form.id='workerForm';
+        form.innerHTML = `
+          <label class="full">Full name<input name="name" required placeholder="Your name"/></label>
+          <label>Phone<input name="phone" required placeholder="Mobile number"/></label>
+          <label>Email<input name="email" type="email" placeholder="you@example.com"/></label>
+          <label>Type of worker<select name="workertype"><option>Labour (Unskilled)</option><option>Mason</option><option>Carpenter</option><option>Plumber</option><option>Electrician</option><option>Painter</option></select></label>
+          <label>Number of workers<input name="count" type="number" min="1" value="1"/></label>
+          <label>Start date<input name="start" type="date"/></label>
+          <label class="full">Address/Notes<textarea name="notes" placeholder="Tell us your site location or special requirements"></textarea></label>
+          <div class="full" style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" type="submit">Submit Application</button></div>
+        `;
+        drawerBody.appendChild(form);
+
+        // images grid below form
+        const imagesWrap = document.createElement('div'); imagesWrap.className='images-grid';
+        item.images.forEach(src=>{const img=document.createElement('img'); img.src=src; imagesWrap.appendChild(img)});
+        drawerBody.appendChild(imagesWrap);
+
+        form.addEventListener('submit', e=>{
+          e.preventDefault();
+          const fd = new FormData(form); const obj = {};
+          for(const [k,v] of fd.entries()) obj[k]=v;
+          // simple success UI
+          drawerBody.innerHTML = `<div style="padding:18px;background:linear-gradient(90deg,#e6ffef,#fff6e6);border-radius:8px"><h3>Application submitted</h3><p>Thanks <strong>${obj.name||''}</strong> — we received your request. We will contact you at <strong>${obj.phone||obj.email||''}</strong> for matching workers.</p><pre style="font-size:12px;white-space:pre-wrap">${JSON.stringify(obj,null,2)}</pre></div>`;
+
+          // In a real site: send data to server via fetch/AJAX. Here we just show it.
+        });
+
+      } else if(key === 'layouts'){
+        // Show layout options + images
+        const layoutSection = document.createElement('div');
+        layoutSection.innerHTML = `<p class="small">Preplanned layouts organized by budget — click a layout to view details.</p>`;
+        const list = document.createElement('div'); list.style.display='grid'; list.style.gridTemplateColumns='repeat(auto-fit,minmax(240px,1fr))'; list.style.gap='10px';
+        DATA.layouts.layoutsMeta.forEach((lt,idx)=>{
+          const card = document.createElement('div'); card.className='card'; card.style.cursor='default';
+          card.innerHTML = `<h4 style="margin:0">${lt.name}</h4><div class="small" style="margin-top:6px">${lt.area} • ${lt.price}</div><p style="margin:8px 0 0;font-size:13px">${lt.desc}</p>`;
+          list.appendChild(card);
+        });
+        layoutSection.appendChild(list);
+        drawerBody.appendChild(layoutSection);
+
+        const imagesWrap = document.createElement('div'); imagesWrap.className='images-grid';
+        item.images.forEach(src=>{const img=document.createElement('img'); img.src=src; imagesWrap.appendChild(img)});
+        drawerBody.appendChild(imagesWrap);
+
+      } else {
+        // Generic: show images + short text
+        const short = document.createElement('p'); short.className='small'; short.textContent = 'Below are sample images and budget price details. Contact the number or email to discuss bulk / negotiated rates.';
+        drawerBody.appendChild(short);
+
+        const imagesWrap = document.createElement('div'); imagesWrap.className='images-grid';
+        item.images.forEach(src=>{const img=document.createElement('img'); img.src=src; imagesWrap.appendChild(img)});
+        drawerBody.appendChild(imagesWrap);
+      }
+
+      // contact action binds to email/phone
+      contactAction.onclick = ()=>{
+        window.location.href = `mailto:${item.email}?subject=Inquiry%20about%20${encodeURIComponent(item.title)}`;
+      };
+
+      overlay.classList.add('open');
+    }
+
+    // attach click handlers to option cards
+    document.querySelectorAll('#options .card').forEach(card=>{
+      card.addEventListener('click', ()=> openDrawer(card.dataset.key));
+    });
+
+    document.getElementById('close-drawer').addEventListener('click', ()=> overlay.classList.remove('open'));
+    overlay.addEventListener('click', (e)=>{ if(e.target===overlay) overlay.classList.remove('open') });
+
+    // keyboard close
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') overlay.classList.remove('open') });
+
+    // Small accessibility: focus trap would be next step in production
+
+  </script>
+</body>
+</html>
